@@ -12,22 +12,15 @@ class AiPlayer
     display.render
     root_node = Node.new(board, nil, true)
     root_node.set_score
-    move = root_node.children.max_by(&:points).move
+    move = root_node.children.shuffle.max_by(&:points).move
     return move
-  end
-
-  private
-
-  def any_move
-    all_moves.sample
   end
 end
 
 class Node
   MAX_DEPTH = 2
 
-  attr_accessor :points, :children
-  attr_reader :move, :board, :depth, :children, :my_turn
+  attr_reader :points, :children, :move
 
   def initialize(board, move, my_turn, depth = MAX_DEPTH)
     @board = board
@@ -35,10 +28,6 @@ class Node
     @depth = depth
     @my_turn = my_turn
     @children = []
-  end
-
-  def best_move
-
   end
 
   def set_score
@@ -51,9 +40,11 @@ class Node
     self.points = my_turn ? scores.max : scores.min
   end
 
+  private
 
-  # should eventually live in ComputerPlayer and be passed as proc
-  # with ComputerPlayer#all_moves within closure
+  attr_writer :points, :children
+  attr_reader :board, :depth, :my_turn
+
   def next_nodes
     board.all_complete_moves_for(current_color).map do |start_pos, end_pos|
       copy = board.dup
@@ -71,7 +62,8 @@ class Node
   end
 
   def total_score
-    calc_score(all_pieces_of(current_color)) - calc_score(board.all_pieces_of(opposite_color))
+    calc_score(board.all_pieces_of(current_color)) -
+      calc_score(board.all_pieces_of(opposite_color))
   end
 
   def calc_score(pieces)

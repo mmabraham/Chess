@@ -1,4 +1,3 @@
-
 load 'load.rb'
 require 'byebug'
 
@@ -15,16 +14,15 @@ class Game
     until board.checkmate?(players.first.color)
       begin
         start_pos, end_pos = players.first.play_turn
-
         unless board[start_pos].color == players.first.color
           raise InvalidMoveError.new("Not your turn!")
         end
-
         board.move_piece(start_pos, end_pos)
       rescue InvalidMoveError => error
         board.errors = error.message
         retry
       end
+
       switch_player!
     end
 
