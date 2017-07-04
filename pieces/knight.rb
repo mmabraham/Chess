@@ -7,6 +7,10 @@ class Knight < Piece
     :N
   end
 
+  def value
+    3
+  end
+
   def diffs
     [ [-2,-1], [-2,1], [2,1], [2,-1],  [1,2], [1,-2], [-1,2], [-1,-2] ]
   end

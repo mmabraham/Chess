@@ -5,6 +5,10 @@ class King < Piece
     :K
   end
 
+  def value
+    100
+  end
+
   def diffs
     [ [0, 1], [0, -1], [1, 0], [-1, 0], [1, -1], [1, 1], [-1, -1], [-1, 1] ]
   end

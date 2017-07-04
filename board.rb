@@ -1,10 +1,11 @@
 class InvalidMoveError < StandardError; end
 
 class Board
-  attr_accessor :grid
+  attr_accessor :grid, :errors
 
   def initialize(grid = nil)
     @grid ||= Array.new(8) { Array.new(8) }
+    @errors = ''
     populate_board
   end
 
@@ -24,6 +25,7 @@ class Board
     self[start_pos].pos = end_pos
     self[end_pos].pos = nil
     self[end_pos], self[start_pos] = self[start_pos], NullPiece.instance
+    self.errors = ''
   end
 
   def [](pos)

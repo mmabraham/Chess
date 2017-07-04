@@ -34,9 +34,9 @@ class Display
         pos = [row_idx, col_idx]
         print format(pos)
       end
-
       puts
     end
+    puts board.errors
   end
 
   private

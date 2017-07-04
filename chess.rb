@@ -22,14 +22,13 @@ class Game
 
         board.move_piece(start_pos, end_pos)
       rescue InvalidMoveError => error
-        puts error.message
-        sleep(1.5)
+        board.errors = error.message
         retry
       end
       switch_player!
     end
 
-    puts "Congrats, #{players.first.name} has won!"
+    puts "Congrats, #{players.last.name} has won!"
   end
 
   private

@@ -12,6 +12,10 @@ class Pawn < Piece
     :p
   end
 
+  def value
+    1
+  end
+
   def moves
     result = [[pos[0] + dirr, pos[1]]]
     result << [pos[0] + (dirr * 2), pos[1]] if pos == initial_pos
