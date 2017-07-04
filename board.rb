@@ -54,6 +54,15 @@ class Board
     result
   end
 
+  # for ai
+  def all_complete_moves_for(color)
+    all_moves = []
+    all_pieces_of(color).each do |piece|
+      all_moves += piece.valid_moves.map { |move| [piece.pos, move]}
+    end
+    all_moves
+  end
+
   def dup
     double_board = Board.new
     double_board.grid = grid.map do |rows|

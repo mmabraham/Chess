@@ -43,7 +43,7 @@ if __FILE__ == $PROGRAM_NAME
   board = Board.new
   display = Display.new(board)
 
-  player1 = HumanPlayer.new(display, :white, "Wen Bo")
+  player1 = AiPlayer.new(display, :white, "Bot")
   player2 = HumanPlayer.new(display, :black, "Menachem")
 
   game = Game.new(player1, player2, board)
