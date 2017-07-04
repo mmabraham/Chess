@@ -1,5 +1,3 @@
-require_relative 'piece'
-
 class Pawn < Piece
   attr_reader :initial_pos
 

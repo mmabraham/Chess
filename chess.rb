@@ -1,5 +1,5 @@
-load 'load.rb'
 require 'byebug'
+load 'load.rb'
 
 class Game
 
@@ -39,10 +39,10 @@ end
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
   display = Display.new(board)
+  player1 = DFSPlayer.new(display, :white, "DFS Bot")
+  player2 = BFSPlayer.new(display, :white, "BFS Bot")
+  player3 = HumanPlayer.new(display, :black, "Menachem")
 
-  player1 = AiPlayer.new(display, :white, "Bot")
-  player2 = HumanPlayer.new(display, :black, "Menachem")
-
-  game = Game.new(player1, player2, board)
+  game = Game.new(player2, player3, board)
   game.play
 end

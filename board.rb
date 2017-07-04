@@ -1,7 +1,7 @@
 class InvalidMoveError < StandardError; end
 
 class Board
-  attr_accessor :grid, :errors
+  attr_accessor :grid, :errors, :prev_move
 
   def initialize(grid = nil)
     @grid ||= Array.new(8) { Array.new(8) }
@@ -22,6 +22,7 @@ class Board
   end
 
   def move_piece!(start_pos, end_pos)
+    prev_move = Move.new(start_pos, end_pos)
     self[start_pos].pos = end_pos
     self[end_pos].pos = nil
     self[end_pos], self[start_pos] = self[start_pos], NullPiece.instance
@@ -80,7 +81,11 @@ class Board
     double_board
   end
 
-  # private
+  def all_pieces_of(color)
+    grid.flatten.select { |piece| piece.color == color }
+  end
+
+  private
 
   def populate_board
     place_nulls
@@ -121,9 +126,6 @@ class Board
     all_pos
   end
 
-  def all_pieces_of(color)
-    grid.flatten.select { |piece| piece.color == color }
-  end
 
   def king_pos(color)
     grid.flatten.find { |piece| piece.is_a?(King) && piece.color == color }.pos
@@ -144,3 +146,5 @@ if __FILE__ == $PROGRAM_NAME
     display.cursor.get_input
   end
 end
+
+Move = Struct.new(:start_pos, :end_pos)

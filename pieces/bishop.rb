@@ -1,6 +1,3 @@
-require_relative 'piece'
-require_relative 'slidable'
-
 class Bishop < Piece
   include Slidable
 
