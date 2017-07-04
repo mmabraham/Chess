@@ -22,7 +22,6 @@ class Board
   end
 
   def move_piece!(start_pos, end_pos)
-    prev_move = Move.new(start_pos, end_pos)
     self[start_pos].pos = end_pos
     self[end_pos].pos = nil
     self[end_pos], self[start_pos] = self[start_pos], NullPiece.instance
@@ -43,8 +42,12 @@ class Board
     all_moves_for(opposite(color)).include?(king_pos(color))
   end
 
+  def game_over?(color)
+    valid_moves_for(color).empty?
+  end
+
   def checkmate?(color)
-    in_check?(color) && valid_moves_for(color).empty?
+    in_check?(color) && game_over?(color)
   end
 
   def valid_moves_for(color)
@@ -135,16 +138,3 @@ class Board
     player_color == :black ? :white : :black
   end
 end
-
-if __FILE__ == $PROGRAM_NAME
-  board = Board.new
-  display = Display.new(board)
-
-  while true
-    system("clear")
-    display.render
-    display.cursor.get_input
-  end
-end
-
-Move = Struct.new(:start_pos, :end_pos)

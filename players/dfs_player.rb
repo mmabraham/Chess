@@ -10,14 +10,14 @@ class DFSPlayer
 
   def play_turn
     display.render
-    root_node = Node.new(board, nil, true)
+    root_node = DFSNode.new(board, nil, true)
     root_node.set_score
     move = root_node.children.shuffle.max_by(&:points).move
     return move
   end
 end
 
-class Node
+class DFSNode
   MAX_DEPTH = 2
 
   attr_reader :points, :children, :move
@@ -49,21 +49,21 @@ class Node
     board.all_complete_moves_for(current_color).map do |start_pos, end_pos|
       copy = board.dup
       copy.move_piece(start_pos, end_pos)
-      Node.new(copy, [start_pos, end_pos], !my_turn, depth - 1)
+      DFSNode.new(copy, [start_pos, end_pos], !my_turn, depth - 1)
     end
   end
 
   def current_color
-    my_turn ? :white : :black
+    my_turn ? :black : :white
   end
 
-  def opposite_color
-    my_turn ? :black : :white
+  def next_color
+    my_turn ? :white : :black
   end
 
   def total_score
     calc_score(board.all_pieces_of(current_color)) -
-      calc_score(board.all_pieces_of(opposite_color))
+      calc_score(board.all_pieces_of(next_color))
   end
 
   def calc_score(pieces)

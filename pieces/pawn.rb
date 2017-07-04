@@ -1,9 +1,9 @@
 class Pawn < Piece
   attr_reader :initial_pos
 
-  def initialize(color, pos, board)
-    @initial_pos = pos.dup
-    super
+  def initialize(color, pos, board, initial_pos = nil)
+    @initial_pos = initial_pos || pos.dup
+    super(color, pos, board)
   end
 
   def symbol
@@ -15,9 +15,14 @@ class Pawn < Piece
   end
 
   def moves
-    result = [[pos[0] + dirr, pos[1]]]
-    result << [pos[0] + (dirr * 2), pos[1]] if pos == initial_pos
-    result.reject { |pos| board[pos].symbol } + captures
+    valid_moves = [[pos[0] + dirr, pos[1]]]
+    valid_moves << [pos[0] + (dirr * 2), pos[1]] if pos == initial_pos
+    valid_moves.reject { |pos| board[pos].symbol } + captures
+  end
+
+  # overwriting Piece dup to retain initial_pos
+  def dup(new_board)
+    Pawn.new(color, pos.dup, new_board, initial_pos)
   end
 
   private

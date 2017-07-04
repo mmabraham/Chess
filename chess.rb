@@ -11,7 +11,7 @@ class Game
   end
 
   def play
-    until board.checkmate?(players.first.color)
+    until board.game_over?(players.first.color)
       begin
         start_pos, end_pos = players.first.play_turn
         unless board[start_pos].color == players.first.color
@@ -39,10 +39,10 @@ end
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
   display = Display.new(board)
-  player1 = DFSPlayer.new(display, :white, "DFS Bot")
-  player2 = BFSPlayer.new(display, :white, "BFS Bot")
+  player1 = BFSPlayer.new(display, :white, "BFS Bot")
+  player2 = DFSPlayer.new(display, :black, "DFS Bot")
   player3 = HumanPlayer.new(display, :black, "Menachem")
 
-  game = Game.new(player2, player3, board)
+  game = Game.new(player1, player2, board)
   game.play
 end

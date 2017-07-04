@@ -21,7 +21,7 @@ class BFSPlayer
   private
 
   def populate_tree
-    self.root_node = NodeTwo.new(board, nil, true)
+    self.root_node = BFSNode.new(board, nil, true)
     remaining_nodes = []
     nodes_for_this_turn = [root_node]
 
@@ -38,7 +38,7 @@ class BFSPlayer
   end
 end
 
-class NodeTwo
+class BFSNode
 
   attr_reader :points, :children, :move
 
@@ -64,7 +64,7 @@ class NodeTwo
     self.children = board.all_complete_moves_for(current_color).map do |start_pos, end_pos|
       copy = board.dup
       copy.move_piece(start_pos, end_pos)
-      NodeTwo.new(copy, [start_pos, end_pos], !my_turn, depth - 1)
+      BFSNode.new(copy, [start_pos, end_pos], !my_turn, depth - 1)
     end
   end
 
