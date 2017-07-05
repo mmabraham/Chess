@@ -24,4 +24,24 @@ play with a friend, against one of the custom built ai engines or watch the diff
 
 ## Implementation
 - Every player class has the same API allowing the game to interact with all players polymorphically.
-- Uses modules to extract methods common to several types of pieces and keep the code DRY. i.e. queen, rook and bishop include the steppable module.
+- Uses modules to extract methods common to several types of pieces and keep the code DRY. i.e. queen, rook and bishop include the slidable module.
+
+```ruby
+class Rook < Piece
+  include Slidable
+
+  def symbol
+    :R
+  end
+
+  def value
+    5
+  end
+
+  private
+
+  def move_dirs
+    [[0, 1], [0, -1], [1, 0], [-1, 0]]
+  end
+end
+```
