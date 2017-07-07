@@ -43,6 +43,6 @@ if __FILE__ == $PROGRAM_NAME
   player2 = DFSPlayer.new(display, :black, "DFS Bot")
   player3 = HumanPlayer.new(display, :black, "Menachem")
 
-  game = Game.new(player1, player3, board)
+  game = Game.new(player2, player1, board)
   game.play
 end

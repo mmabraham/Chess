@@ -17,7 +17,7 @@ class Pawn < Piece
   def moves
     valid_moves = [[pos[0] + dirr, pos[1]]]
     valid_moves << [pos[0] + (dirr * 2), pos[1]] if pos == initial_pos
-    valid_moves.reject { |pos| board[pos].symbol } + captures
+    valid_moves.reject { |pos| debugger if pos.first > 7 || pos.first < 0 ; board[pos].symbol } + captures
   end
 
   # overwriting Piece dup to retain initial_pos

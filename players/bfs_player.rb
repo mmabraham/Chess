@@ -77,8 +77,8 @@ class BFSNode
   end
 
   def total_score
-    calc_score(board.all_pieces_of(current_color)) -
-      calc_score(board.all_pieces_of(opposite_color))
+    calc_score(board.all_pieces_of(:white)) -
+      calc_score(board.all_pieces_of(:black))
   end
 
   def calc_score(pieces)

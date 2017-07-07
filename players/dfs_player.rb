@@ -62,8 +62,8 @@ class DFSNode
   end
 
   def total_score
-    calc_score(board.all_pieces_of(current_color)) -
-      calc_score(board.all_pieces_of(next_color))
+    calc_score(board.all_pieces_of(:black)) -
+      calc_score(board.all_pieces_of(:white))
   end
 
   def calc_score(pieces)
