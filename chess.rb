@@ -1,5 +1,7 @@
-require 'byebug'
-load 'load.rb'
+require_relative 'lib/board'
+require_relative 'lib/display'
+require_relative 'lib/pieces'
+require_relative 'lib/players'
 
 class Game
 
@@ -15,7 +17,7 @@ class Game
       begin
         start_pos, end_pos = players.first.play_turn
         unless board[start_pos].color == players.first.color
-          raise InvalidMoveError.new("Not your turn!")
+          raise InvalidMoveError.new("Not your piece")
         end
         board.move_piece(start_pos, end_pos)
       rescue InvalidMoveError => error
@@ -26,7 +28,7 @@ class Game
       switch_player!
     end
 
-    puts "Congrats, #{players.last.name} has won!"
+    puts "#{players.last.name} wins!"
   end
 
   private

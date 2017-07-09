@@ -6,7 +6,7 @@ class Bishop < Piece
   end
 
   def value
-    3
+    3 + super
   end
 
   def move_dirs

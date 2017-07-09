@@ -6,7 +6,7 @@ class Knight < Piece
   end
 
   def value
-    3
+    3 + super
   end
 
   def diffs

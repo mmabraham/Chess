@@ -11,7 +11,7 @@ class Pawn < Piece
   end
 
   def value
-    1
+    1 + super
   end
 
   def moves

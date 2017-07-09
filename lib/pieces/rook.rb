@@ -6,7 +6,7 @@ class Rook < Piece
   end
 
   def value
-    5
+    5 + super
   end
 
   private

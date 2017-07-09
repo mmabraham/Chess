@@ -1,4 +1,3 @@
-require 'byebug'
 require 'singleton'
 
 class Piece
@@ -17,6 +16,11 @@ class Piece
 
   def valid_moves
     moves.reject { |end_pos| move_into_check?(end_pos) }
+  end
+
+  def value
+    # slightly prioritize middle of the board
+    pos.reduce(0) { |acc, idx| acc + (3.5 - (3.5 - idx).abs) } / 6.0
   end
 
   private

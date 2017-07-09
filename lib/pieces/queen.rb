@@ -6,7 +6,7 @@ class Queen < Piece
   end
 
   def value
-    9
+    9 + super
   end
 
   private
