@@ -34,7 +34,7 @@ class Pawn < Piece
   def captures
     result = [[pos[0] + dirr, pos[1] + 1], [pos[0] + dirr, pos[1] - 1]]
 
-    result.select do |pos| pos.all? { |idx| idx.between?(0, 7) } &&
+    result.select do |pos| pos.all? { |idx| idx < 8 && idx > -1 } &&
       board[pos].symbol && board[pos].color != color
     end
   end

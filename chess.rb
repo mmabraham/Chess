@@ -43,8 +43,8 @@ if __FILE__ == $PROGRAM_NAME
   display = Display.new(board)
   player1 = BFSPlayer.new(display, :white, "BFS Bot")
   player2 = DFSPlayer.new(display, :black, "DFS Bot")
-  player3 = HumanPlayer.new(display, :black, "Menachem")
+  player3 = HumanPlayer.new(display, :white, "Menachem")
 
-  game = Game.new(player2, player1, board)
+  game = Game.new(player2, player3, board)
   game.play
 end

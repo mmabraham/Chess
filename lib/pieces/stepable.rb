@@ -1,7 +1,7 @@
 module Stepable
   def moves
     diffs.map { |diff| absolute_pos(pos, diff) }
-      .select { |pos| pos.all? { |idx| idx.between?(0, 7) }}
+      .select { |pos| pos.all? { |idx| idx < 8 && idx > -1 } }
       .reject { |pos| board[pos].symbol && board[pos].color == color }
   end
 
