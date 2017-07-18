@@ -37,7 +37,8 @@ class DFSNode
     end
     self.children = next_nodes
     scores = self.children.map { |node| node.set_score }
-    self.points = my_turn ? scores.max : scores.min
+    debugger if scores.empty?
+    self.points = my_turn ? scores.max || -999999 : scores.min || 999999
   end
 
   private
