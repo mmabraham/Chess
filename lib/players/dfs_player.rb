@@ -38,16 +38,16 @@ class DFSPlayer
   end
 
   def current_color(my_turn)
-    my_turn ? :black : :white
+    my_turn ? color : opposite_color
   end
 
-  def next_color(my_turn)
-    my_turn ? :white : :black
+  def opposite_color
+    color == :black ? :white : :black
   end
 
   def total_score(board, my_turn)
-    calc_score(board.all_pieces_of(:black)) -
-      calc_score(board.all_pieces_of(:white))
+    calc_score(board.all_pieces_of(color)) -
+      calc_score(board.all_pieces_of(opposite_color))
   end
 
   def calc_score(pieces)
