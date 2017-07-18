@@ -1,4 +1,5 @@
 class DFSPlayer
+  MAX_DEPTH = 2
   attr_reader :board, :color, :name, :display
 
   def initialize(display, color, name = Bot)
@@ -10,68 +11,46 @@ class DFSPlayer
 
   def play_turn
     display.render
-    root_node = DFSNode.new(board, nil, true)
-    root_node.set_score
-    move = root_node.children.shuffle.max_by(&:points).move
-    return move
-  end
-end
-
-class DFSNode
-  MAX_DEPTH = 2
-
-  attr_reader :points, :children, :move
-
-  def initialize(board, move, my_turn, depth = MAX_DEPTH)
-    @board = board
-    @move = move
-    @depth = depth
-    @my_turn = my_turn
-    @children = []
-  end
-
-  def set_score
-    if depth <= 0
-      self.points = total_score
-      return total_score
-    end
-    self.children = next_nodes
-    scores = self.children.map { |node| node.set_score }
-    debugger if scores.empty?
-    self.points = my_turn ? scores.max || -999999 : scores.min || 999999
+    mini_max.first
   end
 
   private
 
-  attr_writer :points, :children
-  attr_reader :board, :depth, :my_turn
+  def mini_max(board = self.board, my_turn = true, depth = 0)
+    best_move = nil
+    return [best_move, total_score(board, my_turn)] if depth == MAX_DEPTH
 
-  def next_nodes
-    board.all_complete_moves_for(current_color).map do |start_pos, end_pos|
+    moves = board.all_complete_moves_for(current_color(my_turn))
+
+    best_score = my_turn ? -999999 : 999999
+
+    moves.each do |move|
       copy = board.dup
-      copy.move_piece(start_pos, end_pos)
-      DFSNode.new(copy, [start_pos, end_pos], !my_turn, depth - 1)
+      copy.move_piece!(*move)
+      _, best = mini_max(copy, !my_turn, depth + 1)
+      if my_turn
+        best_score, best_move = best, move if best > best_score
+      else
+        best_score, best_move = best, move if best < best_score
+      end
     end
+    [best_move, best_score]
   end
 
-  def current_color
+  def current_color(my_turn)
     my_turn ? :black : :white
   end
 
-  def next_color
+  def next_color(my_turn)
     my_turn ? :white : :black
   end
 
-  def total_score
+  def total_score(board, my_turn)
     calc_score(board.all_pieces_of(:black)) -
       calc_score(board.all_pieces_of(:white))
   end
 
   def calc_score(pieces)
     pieces.reduce(0) { |acc, piece| acc + piece.value }
-  end
-
-  def inspect
-    move.to_s + '------- ' + points
   end
 end
