@@ -29,7 +29,7 @@ class Game
 
       switch_player!
     end
-
+    players.last.display.render
     puts "#{players.last.name} wins!"
   end
 
@@ -43,10 +43,14 @@ end
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
   display = Display.new(board)
-  player1 = BFSPlayer.new(display, :white, "BFS Bot")
-  player2 = DFSPlayer.new(display, :black, "DFS Bot")
-  player3 = HumanPlayer.new(display, :black, "Menachem")
+  player1 = HumanPlayer.new(display, :white, "Menachem")
+  player2 = BFSPlayer.new(display, :white, "BFS Bot")
+  player3 = DFSPlayer.new(display, :black, "DFS Bot")
 
-  game = Game.new(player1, player3, board)
+  if ARGV[0] == '-h'
+    game = Game.new(player1, player3, board)
+  else
+    game = Game.new(player2, player3, board)
+  end
   game.play
 end

@@ -22,7 +22,8 @@ class BFSPlayer
   def play_turn
     display.render
     populate_tree
-    node = root_node.children.max_by(&:best_score)
+    root_node.best_score
+    node = root_node.children.shuffle.max_by(&:points)
     # @root_node = node
     node.move
   end
@@ -63,7 +64,11 @@ class BFSNode
   def best_score
     return total_score if depth == MAX_DEPTH
     scores = self.children.map { |node| node.best_score }
-    self.points = my_turn ? scores.max : scores.min
+
+    debugger if scores.nil?
+
+    self.points = my_turn ? scores.max || -999 : scores.min || 999
+    debugger if points.nil?
     points
   end
 
