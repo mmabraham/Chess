@@ -14,6 +14,7 @@ class HumanPlayer
   def get_pos
     while true
       display.render
+      # sleep(0.005)
       pos = display.cursor.get_input
       return pos if pos
     end

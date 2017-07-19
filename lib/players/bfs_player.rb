@@ -1,35 +1,45 @@
 MAX_DEPTH = 2
 
 class BFSPlayer
+  def self.color
+    @@color
+  end
+
   attr_accessor :root_node
   attr_reader :board, :color, :name, :display
 
   def initialize(display, color, name = Bot)
+    @@color = color
+    @color = color
     @display = display
     @board = display.board
-    @color = color
     @name = name
+    # self.root_node = BFSNode.new(board, nil, true)
+
+    # @thread = Thread.new { populate_tree }
   end
 
   def play_turn
     display.render
     populate_tree
-    move = root_node.children.shuffle.max_by(&:points).move
-    return move
+    node = root_node.children.max_by(&:best_score)
+    # @root_node = node
+    node.move
   end
 
   private
 
   def populate_tree
+    # @thread.priority = -1
     self.root_node = BFSNode.new(board, nil, true)
     remaining_nodes = []
     nodes_for_this_turn = [root_node]
 
     MAX_DEPTH.times do
       until nodes_for_this_turn.empty?
+        # sleep(0.0001)
         node = nodes_for_this_turn.shift
         next_nodes = node.next_nodes
-        node.set_score
         remaining_nodes.concat next_nodes
       end
       nodes_for_this_turn = remaining_nodes
@@ -42,7 +52,7 @@ class BFSNode
 
   attr_reader :points, :children, :move
 
-  def initialize(board, move, my_turn, depth = MAX_DEPTH)
+  def initialize(board, move, my_turn, depth = 0)
     @board = board
     @move = move
     @depth = depth
@@ -50,9 +60,11 @@ class BFSNode
     @children = []
   end
 
-  def set_score
-    scores = self.children.map { |node| node.set_score }
+  def best_score
+    return total_score if depth == MAX_DEPTH
+    scores = self.children.map { |node| node.best_score }
     self.points = my_turn ? scores.max : scores.min
+    points
   end
 
   # private
@@ -64,21 +76,21 @@ class BFSNode
     self.children = board.all_complete_moves_for(current_color).map do |start_pos, end_pos|
       copy = board.dup
       copy.move_piece(start_pos, end_pos)
-      BFSNode.new(copy, [start_pos, end_pos], !my_turn, depth - 1)
+      BFSNode.new(copy, [start_pos, end_pos], !my_turn, depth + 1)
     end
   end
 
   def current_color
-    my_turn ? :white : :black
+    my_turn ? BFSPlayer.color : opposite_color
   end
 
   def opposite_color
-    my_turn ? :black : :white
+    BFSPlayer.color == :black ? :white : :black
   end
 
   def total_score
-    calc_score(board.all_pieces_of(:white)) -
-      calc_score(board.all_pieces_of(:black))
+    calc_score(board.all_pieces_of(BFSPlayer.color)) -
+      calc_score(board.all_pieces_of(opposite_color))
   end
 
   def calc_score(pieces)

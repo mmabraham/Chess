@@ -11,4 +11,8 @@ class NullPiece < Piece
   def symbol
     nil
   end
+
+  # def moves
+  #   []
+  # end
 end
