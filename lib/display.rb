@@ -42,7 +42,7 @@ class Display
   private
 
   def format(pos)
-    symbol = board[pos].symbol
+    symbol = board[pos].symbol || :null_piece
     icon = board[pos].color == :white ? W_ICON[symbol] : B_ICON[symbol]
     cell = " #{icon || ' '} "
     cell = cell_color(cell, pos)
@@ -55,13 +55,13 @@ class Display
 
   def cursor_color(cell)
     if cursor.selected
-      cell.colorize(background: :red)
+      cell.colorize(background: :light_yellow)
     else
-      cell.colorize(background: :blue)
+      cell.colorize(background: :yellow)
     end
   end
 
   def cell_color(cell, pos)
-    pos.reduce(:+).even? ? cell.colorize(background: :light_black) : cell.colorize(background: :white)
+    pos.reduce(:+).even? ? cell.colorize(background: :cyan  ) : cell.colorize(background: :white)
   end
 end

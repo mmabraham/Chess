@@ -14,9 +14,6 @@ class BFSPlayer
     @display = display
     @board = display.board
     @name = name
-    # self.root_node = BFSNode.new(board, nil, true)
-
-    # @thread = Thread.new { populate_tree }
   end
 
   def play_turn
@@ -24,21 +21,17 @@ class BFSPlayer
     populate_tree
     root_node.best_score
     node = root_node.children.shuffle.max_by(&:points)
-    # @root_node = node
     node.move
   end
 
   private
 
   def populate_tree
-    # @thread.priority = -1
     self.root_node = BFSNode.new(board, nil, true)
     remaining_nodes = []
     nodes_for_this_turn = [root_node]
-
     MAX_DEPTH.times do
       until nodes_for_this_turn.empty?
-        # sleep(0.0001)
         node = nodes_for_this_turn.shift
         next_nodes = node.next_nodes
         remaining_nodes.concat next_nodes
@@ -50,7 +43,6 @@ class BFSPlayer
 end
 
 class BFSNode
-
   attr_reader :points, :children, :move
 
   def initialize(board, move, my_turn, depth = 0)
@@ -64,18 +56,8 @@ class BFSNode
   def best_score
     return total_score if depth == MAX_DEPTH
     scores = self.children.map { |node| node.best_score }
-
-    debugger if scores.nil?
-
     self.points = my_turn ? scores.max || -999 : scores.min || 999
-    debugger if points.nil?
-    points
   end
-
-  # private
-
-  attr_writer :points, :children
-  attr_reader :board, :depth, :my_turn
 
   def next_nodes
     self.children = board.all_complete_moves_for(current_color).map do |start_pos, end_pos|
@@ -84,6 +66,12 @@ class BFSNode
       BFSNode.new(copy, [start_pos, end_pos], !my_turn, depth + 1)
     end
   end
+  
+  private
+
+  attr_writer :points, :children
+  attr_reader :board, :depth, :my_turn
+
 
   def current_color
     my_turn ? BFSPlayer.color : opposite_color

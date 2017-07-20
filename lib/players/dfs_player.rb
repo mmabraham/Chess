@@ -21,9 +21,7 @@ class DFSPlayer
     return [best_move, total_score(board, my_turn)] if depth == MAX_DEPTH
 
     moves = board.all_complete_moves_for(current_color(my_turn))
-
     best_score = my_turn ? -999999 : 999999
-
     moves.each do |move|
       copy = board.dup
       copy.move_piece!(*move)

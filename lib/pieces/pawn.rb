@@ -20,7 +20,7 @@ class Pawn < Piece
     valid_moves.reject { |pos| pos.first > 7 || pos.first < 0 || board[pos].symbol } + captures
   end
 
-  # overwriting Piece dup to retain initial_pos
+  # overwriting super dup to retain initial_pos
   def dup(new_board)
     Pawn.new(color, pos.dup, new_board, initial_pos)
   end
