@@ -41,14 +41,17 @@ end
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
   display = Display.new(board)
-  player1 = HumanPlayer.new(display, :white, "Menachem")
-  player2 = BFSPlayer.new(display, :white, "BFS Bot")
-  player3 = DFSPlayer.new(display, :black, "DFS Bot")
+  player1 = HumanPlayer.new(display, :white, "White")
+  player2 = HumanPlayer.new(display, :black, "Black")
+  player3 = BFSPlayer.new(display, :white, "BFS Bot")
+  player4 = DFSPlayer.new(display, :black, "DFS Bot")
 
   if ARGV[0] == '-h'
-    game = Game.new(player1, player3, board)
+    game = Game.new(player1, player2, board)
+  elsif ARGV[0] == '-c'
+    game = Game.new(player3, player4, board)
   else
-    game = Game.new(player2, player3, board)
+    game = Game.new(player1, player4, board)
   end
   game.play
 end
