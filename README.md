@@ -6,13 +6,15 @@ play with a friend, against one of the custom built ai engines or watch the diff
 
 ## Installation
 - download zip or
-`git clone https://github.com/mmabraham/Chess`
-`bundle install`
-`ruby chess.rb`
-- player configuration can be edited within the script at the bottom of `chess.rb`
-- difficulty can be changed by editing the `MAX_DEPTH` constant in the desired ai file.
+`git clone https://github.com/mmabraham/Chess\n`
+`bundle install\n`
+- difficulty can be customized by editing the `MAX_DEPTH` constant within any of the ai player files.
 
 ## Game play
+`ruby chess.rb\n` to begin a game.
+- The default settings will begin a game against the computer, with the human playing as white.
+- running the game with the flag `-h` will start a game with 2 human players
+- running the game with the flag `-c` will start a game with 2 computer players, with 'BFSPlayer' as white
 - use the arrow keys or w s a d to move the cursor.
 - space or enter to select or drop a playing piece.
 
