@@ -2,7 +2,7 @@
 ##### The all-time classic written for the command line
 play with a friend, against one of the custom built ai engines or watch the different ai algorithms compete.
 
-![screen shot](screen_shot_small.png)
+![screen shot](chess-still.png)
 
 ## Installation
 - download zip or
